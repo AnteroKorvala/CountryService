@@ -16,6 +16,9 @@ import java.util.List;
 @SpringBootTest
 class DemoApplicationTests {
 
+	private final String name = "nigeria";
+	private final String iso2 = "NG";
+
 	@Autowired
 	private ServiceController serviceController;
 	@Autowired
@@ -26,40 +29,47 @@ class DemoApplicationTests {
 	private CountryService countryService;
 
 	@Test
-	void countryListServiceTester() {
-		System.out.println("The list of countries ===>>> " + serviceController.getCountries());
+	void serviceControllerTester() {
+		var countries = serviceController.getCountries();
+		var country = serviceController.getCountry(name);
+		System.out.println(countries);
+		System.out.println(country);
 	}
 
 	@Test
 	void countryHandlerTester() {
 		countryHandler.getCodes();
-		countryHandler.getPopulation("nigeria");
-		countryHandler.getCapital("nigeria");
-		countryHandler.getFlagImage("NG");
+		countryHandler.getPopulation(name);
+		countryHandler.getCapital(name);
+		countryHandler.getFlagImage(iso2);
 	}
 
 	@Test
 	void countryMapperTester() {
+		String dial_code = "+234";
 		var countryCodeModel =
-				new CountryCodeModel("nigeria", "NG", "+234");
-		CountryDto countryDtoA = new CountryDto("nigeria", "NG");
+				new CountryCodeModel(name, iso2, dial_code);
+		CountryDto countryDtoA = new CountryDto(name, iso2);
 		List<CountryDto> countryDtos = new ArrayList<CountryDto>();
 		countryDtos.add(countryDtoA);
-		CapitalModel capitalModel = new CapitalModel("nigeria", "Abuja", "NG", "NGA");
+		String iso3 = "NGA";
+		String capital = "Abuja";
+		CapitalModel capitalModel = new CapitalModel(name, capital, iso2, iso3);
 		PopulationCountModel populationCountModel = new PopulationCountModel(2018, 195874740);
 		List<PopulationCountModel> populationCountModels = new ArrayList<PopulationCountModel>();
 		populationCountModels.add(populationCountModel);
 		PopulationModel populationModel = new PopulationModel(
-				"nigeria",
-				"NG",
-				"NGA",
+				name,
+				iso2,
+				iso3,
 				populationCountModels
 		);
+		String flagImage = "https://upload.wikimedia.org/wikipedia/commons/7/79/Flag_of_Nigeria.svg";
 		FlagImageModel flagImageModel = new FlagImageModel(
-				"nigeria",
-				"https://upload.wikimedia.org/wikipedia/commons/7/79/Flag_of_Nigeria.svg",
-				"NG",
-				"NGA"
+				name,
+				flagImage,
+				iso2,
+				iso3
 		);
 
 		countryMapper.toDto(countryCodeModel);
@@ -70,6 +80,6 @@ class DemoApplicationTests {
 	@Test
 	void countryServiceTester() {
 		countryService.getCountries();
-		countryService.getCountry("nigeria");
+		countryService.getCountry(name);
 	}
 }
