@@ -5,6 +5,7 @@ import com.country.service.demo.handlers.CountryHandler;
 import com.country.service.demo.mappers.CountryMapper;
 import com.country.service.demo.models.*;
 import com.country.service.demo.models.dtos.CountryDto;
+import com.country.service.demo.services.CountryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,8 @@ class DemoApplicationTests {
 	private CountryHandler countryHandler;
 	@Autowired
 	private CountryMapper countryMapper;
+	@Autowired
+	private CountryService countryService;
 
 	@Test
 	void countryListServiceTester() {
@@ -62,5 +65,11 @@ class DemoApplicationTests {
 		countryMapper.toDto(countryCodeModel);
 		countryMapper.toDto(countryDtos);
 		countryMapper.toDto(capitalModel, populationModel, flagImageModel);
+	}
+
+	@Test
+	void countryServiceTester() {
+		countryService.getCountries();
+		countryService.getCountry("nigeria");
 	}
 }
